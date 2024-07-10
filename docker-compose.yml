@@ -1,0 +1,73 @@
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    ports:
+      - 81:80
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - mysql
+      - php
+      - phpmyadmin
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 33061:3306
+    environment:
+      MYSQL_DATABASE: service-b
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./mysql:/var/lib/mysql  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    platform: linux/amd64
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: laravel
+      PMA_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    restart: always
+    ports:
+      - 8082:80
+    depends_on:
+    - mysql
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    volumes:
+      - ./src:/var/www/html
+  composer:
+    build:
+      context: .
+      dockerfile: composer.dockerfile
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+  npm:
+    image: node:current-alpine
+    volumes:
+      - ./src:/var/www/html
+    entrypoint: ["npm"]
+    working_dir: /var/www/html
+  artisan:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    volumes:
+    - ./src:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - mysql
+    entrypoint: ["php", "/var/www/html/artisan"]
+  assets:
+    image: node:current-alpine
+    volumes:
+      - ./src:/var/www/html
+    command: ["/bin/sh", "-c", "npm install"]
+    working_dir: /var/www/html

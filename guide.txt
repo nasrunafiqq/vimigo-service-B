@@ -1,0 +1,51 @@
+To change database name when docker creating mysql image, change it in docker-compose.yml
+Mysql->MYSQL_DATABASE: changeithere
+
+To install laravel using compose through docker.
+docker compose run --rm composer create-project laravel/laravel .
+
+To use composer through docker.
+docker compose run --rm composer "command"
+
+To use artisan command.
+docker compose run --rm artisan "command"
+
+dont forget to change .env setting for database and migration. (database name, username and password is based on your docker-compose.yml file).
+DB_HOST should be same as your mysql container service name.
+ 
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=laravel
+DB_PASSWORD=secret
+
+To set up SSL/cert.
+make sure to install mkcert
+run "mkcert your-app-url" in terminal
+make sure cert name is same in default.prod.conf and nginx.prod.dockerfile and located in correct directory
+
+Starting up the host
+Docker compose up --build nginx
+
+get into docker container bash/ssh
+docker exec -it [container_name] /bin/sh
+example:
+docker exec -it workspace_github-php-1 /bin/sh
+p/s: container_name can be get by running "docker ps"
+
+starting up the host in production
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build nginx
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+
+To add command (artisan or npm)
+edit assets command in docker-compose.prod.yml
+example
+command: ["php", "/var/www/html/artisan", "cache:clear"]
+
+To run vite watcher (npm run dev)
+docker compose run --rm -p 5173:5173 npm run dev
+
+To run command inside rpm
+Remove entry point in docker-compose.yml
+entrypoint: ["npm"]

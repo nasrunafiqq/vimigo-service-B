@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.prod.dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - mysql
+      - php
+      - assets
+      - phpmyadmin
+  php:
+    build:
+      context: .
+      dockerfile: php.prod.dockerfile
+  assets:
+    image: node:current-alpine
+    volumes:
+      - ./src:/var/www/html
+    command: ["/bin/sh", "-c", "npm install"]
+    working_dir: /var/www/html

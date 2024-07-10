@@ -1,0 +1,78 @@
+# Ignore vendor directory
+/src/vendor/
+/mysql/
+# Ignore node_modules directory
+/node_modules/
+
+# Ignore environment file
+/src/.env
+
+# Ignore compiled assets
+/src/../*
+/src/public/css/
+/src/public/js/
+/src/public/mix-manifest.json
+
+# Ignore storage directory
+/src/storage/*.key
+/src/storage/app/
+/src/storage/debugbar/
+/src/storage/framework/cache/
+/src/storage/framework/sessions/
+/src/storage/framework/testing/
+/src/storage/framework/views/
+/src/storage/logs/
+
+# Ignore composer.lock file
+/src/composer.lock
+
+# Ignore Homestead/Homestead.yaml file
+/src/Homestead.yaml
+
+# Ignore SQLite database
+/src/database/*.sqlite
+
+# Ignore IDE and editor files
+*.iml
+.idea/
+*.swp
+.DS_Store
+
+# Ignore PHPStorm specific files
+/src/.phpstorm.meta.php
+
+# Ignore encrypted key file
+.enc
+
+# Ignore Laravel Dusk screenshots
+/src/tests/Browser/screenshots/
+
+# Ignore mix-manifest.json file
+mix-manifest.json
+
+# Ignore PHPUnit testing log
+phpunit.xml
+
+# Ignore NPM/Yarn error logs
+npm-debug.log
+yarn-error.log
+
+# Ignore Laravel Passport keys
+/src/storage/oauth-private.key
+/src/storage/oauth-public.key
+
+# Ignore Laravel Telescope files
+/src/storage/app/telescope/*.json
+/src/storage/app/telescope/*.log
+
+# Ignore Valet environment file
+/src/.valet-env.json
+
+# Ignore Laravel backup files
+/src/backups/
+
+# Ignore Laravel Horizon Redis configuration file
+/src/srchorizon.php
+
+# Ignore PHPStan cache
+/src/phpstan/cache/
